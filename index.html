@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -83,11 +83,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>RecyclerView 滑动时的优化处理</p>
+<p> 在滑动时停止加载图片，在滑动停止时开始加载图片，这里用了Glide.pause 和Glide.resume.这里为了避免重复设置增加开销，设置了一个标志变量来做判断。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">mRecyclerView.addOnScrollListener(<span class="keyword">new</span> RecyclerView.OnScrollListener() &#123;</div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> newState)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onScrollStateChanged(recyclerView, newState);</div><div class="line">    <span class="keyword">if</span> (newState == RecyclerView.SCROLL_STATE_DRAGGING || newState == RecyclerView.SCROLL_STATE_SETTLING) &#123;</div><div class="line">        sIsScrolling = <span class="keyword">true</span>;</div><div class="line">        Glide.with(VipMasterActivity.<span class="keyword">this</span>).pauseRequests();</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (newState == RecyclerView.SCROLL_STATE_IDLE) &#123;</div><div class="line">        <span class="keyword">if</span> (sIsScrolling == <span class="keyword">true</span>) &#123;</div><div class="line">            Glide.with(VipMasterActivity.<span class="keyword">this</span>).resumeRequests();</div><div class="line">           </div><div class="line">        &#125;</div><div class="line">        sIsScrolling = <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrolled</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> dx, <span class="keyword">int</span> dy)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onScrolled(recyclerView, dx, dy);</div><div class="line">&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/30/recyclerview-scroll-control/" data-id="cj5qa6ko40002qs0j5jd974hg" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2017/07/30/recyclerview-scroll-control/" data-id="cj5qa6ko40002qs0j5jd974hg" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -176,7 +179,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/30/android/" data-id="cj5qa6kns0000qs0jbzkr251m" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2017/07/30/android/" data-id="cj5qa6kns0000qs0jbzkr251m" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -221,7 +224,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/27/hello-world/" data-id="cj5qa6knz0001qs0jowqedalo" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2017/07/27/hello-world/" data-id="cj5qa6knz0001qs0jowqedalo" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -246,7 +249,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archieven</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
     </div>
@@ -256,7 +259,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recente berichten</h3>
+    <h3 class="widget-title">Articles récents</h3>
     <div class="widget">
       <ul>
         
@@ -285,7 +288,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2017 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

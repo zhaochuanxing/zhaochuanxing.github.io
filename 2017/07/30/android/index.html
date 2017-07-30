@@ -5,13 +5,16 @@
   
   <title>android | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="article">
+  <meta name="description" content="公司中同事做的小分享，整理一下。 #使用场景  全局性的资源统一管理 对象的创建和销毁开销比较大  实现基本思路方案： 保证一个类只有一个实例，并提供一个一个对外的访问点。 常规方式：  构造函数用private 修饰 定义一个private static 的引用代表该对象 对外提供public static 的方法来访问到这个对象。 构造对象的过程中做好线程同步，避免产生多个对象。 不要实现Se">
+<meta property="og:type" content="article">
 <meta property="og:title" content="android">
 <meta property="og:url" content="http://yoursite.com/2017/07/30/android/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:updated_time" content="2017-07-30T04:39:45.394Z">
+<meta property="og:description" content="公司中同事做的小分享，整理一下。 #使用场景  全局性的资源统一管理 对象的创建和销毁开销比较大  实现基本思路方案： 保证一个类只有一个实例，并提供一个一个对外的访问点。 常规方式：  构造函数用private 修饰 定义一个private static 的引用代表该对象 对外提供public static 的方法来访问到这个对象。 构造对象的过程中做好线程同步，避免产生多个对象。 不要实现Se">
+<meta property="og:updated_time" content="2017-07-30T05:20:58.962Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android">
+<meta name="twitter:description" content="公司中同事做的小分享，整理一下。 #使用场景  全局性的资源统一管理 对象的创建和销毁开销比较大  实现基本思路方案： 保证一个类只有一个实例，并提供一个一个对外的访问点。 常规方式：  构造函数用private 修饰 定义一个private static 的引用代表该对象 对外提供public static 的方法来访问到这个对象。 构造对象的过程中做好线程同步，避免产生多个对象。 不要实现Se">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -82,7 +85,61 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>公司中同事做的小分享，整理一下。</p>
+<p>#使用场景</p>
+<ol>
+<li>全局性的资源统一管理</li>
+<li>对象的创建和销毁开销比较大</li>
+</ol>
+<h1 id="实现基本思路"><a href="#实现基本思路" class="headerlink" title="实现基本思路"></a>实现基本思路</h1><p>方案： 保证一个类只有一个实例，并提供一个一个对外的访问点。</p>
+<p>常规方式：</p>
+<ol>
+<li>构造函数用private 修饰</li>
+<li>定义一个private static 的引用代表该对象</li>
+<li>对外提供public static 的方法来访问到这个对象。</li>
+<li>构造对象的过程中做好线程同步，避免产生多个对象。</li>
+<li>不要实现Serializable   Cloneable接口。</li>
+</ol>
+<h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><ol>
+<li>创建过程是否依赖外部参数。</li>
+<li>懒加载和立即加载</li>
+</ol>
+<h1 id="懒加载的最基本的实现"><a href="#懒加载的最基本的实现" class="headerlink" title="懒加载的最基本的实现"></a>懒加载的最基本的实现</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton INSTANCE;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Singleton <span class="title">getInstance</span><span class="params">(Object obj)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</div><div class="line">            INSTANCE = <span class="keyword">new</span> Singleton(obj);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> INSTANCE;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">(Object obj)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>问题： 每次获取对象都要进行线程同步，性能损耗比较大。</p>
+<h2 id="懒加载的优化版本"><a href="#懒加载的优化版本" class="headerlink" title="懒加载的优化版本"></a>懒加载的优化版本</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton2</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton2 INSTANCE;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton2 <span class="title">getInstance</span><span class="params">(Object obj)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">synchronized</span> (Singleton2.class) &#123;</div><div class="line">                <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</div><div class="line">                    INSTANCE = <span class="keyword">new</span> Singleton2(obj);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> INSTANCE;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton2</span><span class="params">(Object obj)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意： 用双检锁（Double-checked locking)来优化对象的创建过程；用volatile来修饰对象。</p>
+<h2 id="volatile的作用"><a href="#volatile的作用" class="headerlink" title="volatile的作用"></a>volatile的作用</h2><p>INSTANCE = new Singleton2(obj);<br>并不是一个原子操作，在jvm中这个语句会做下面三件事情：</p>
+<ol>
+<li>给INSTANCE分配内存</li>
+<li>调用构造函数来初始化成员变量。</li>
+<li>将INSTANCE 指向分配的内存空间。（执行完这个INSTANCE就是非null了）</li>
+</ol>
+<p>编译器存在指令重排序的优化，第二步和第三步的顺序是不确定的，执行顺序可能是1-2-3,也可能是1-3-2 。如果是后者，并且出现3 执行完毕，2未完成初始化时，被另一个线程抢占了，此时直接返回INSTANCE，使用时会出现错误，而且这个错误很难被发现。这个问题并不在于创建了多个对象，而是在于可能会返回一个不可用的对象。</p>
+<p>使用 volatile 的主要原因是：禁止指令重排序优化。也就是说，在 volatile 变量的赋值操作后面会有一个内存屏障（生成的汇编代码上），读操作不会被重排序到内存屏障之前。取操作必须在执行完 1-2-3 之后或者 1-3-2 之后，不存在执行到 1-3-2 然后取到值的情况。</p>
+<h2 id="立即加载的基本实现"><a href="#立即加载的基本实现" class="headerlink" title="立即加载的基本实现"></a>立即加载的基本实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</div><div class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">  <span class="keyword">return</span> INSTANCE;</div><div class="line"> &#125;</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意：</p>
+<ol>
+<li>对象何时创建的? 类加载的时候创建的</li>
+<li>线程的同步如何保证？ 虚拟机加载类的过程是同步的。</li>
+</ol>
+<h2 id="类什么时候被加载？"><a href="#类什么时候被加载？" class="headerlink" title="类什么时候被加载？"></a>类什么时候被加载？</h2><ol>
+<li>遇到new 、getstatic、 putstatic 或invokestatic 这四条字节码指令时，如果类没有进行初始化，则会触发初始化。生成这四种字节码指令的常见java代码场景是：new 关键字实例化对象；读取或者设置一个类的静态字段；调用一个类的静态方法。</li>
+<li>使用java.lang.reflect包中的方法对类执行反射调用，如果类没有执行初始化则需要触发其初始化。</li>
+<li>初始化一个类的时候，如果父类没有初始化则要先触发父类的初始化。</li>
+<li>虚拟机要启动的时候，用户需要指定一个要执行的主类（包含main方法的类），虚拟机会先初始化这个主类。</li>
+</ol>
+<p>摘自《深入理解java虚拟机》</p>
+<h2 id="立即加载基本实现存在的问题"><a href="#立即加载基本实现存在的问题" class="headerlink" title="立即加载基本实现存在的问题"></a>立即加载基本实现存在的问题</h2><p>   根据上面类加载的时机可以看到立即加载的基本实现存在一个问题：<br>如果单例类中存在其他的static的属性和方法，并且在调用getInstance之前就用到了这些属性和方法，那么便会触发对象的初始化，此时并不一定会需要这个对象。提前初始化可能会造成资源的浪费。</p>
+<h2 id="针对类加载时机的优化"><a href="#针对类加载时机的优化" class="headerlink" title="针对类加载时机的优化"></a>针对类加载时机的优化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</div><div class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Holder</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();</div><div class="line">&#125;</div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">  <span class="keyword">return</span> Holder.INSTANCE;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注：<br>这里采用静态内部类的方式，来将单例对象的构造放到了静态内部类的加载上来，只有外部调用getInstance时，采用触发对内部类的加载，实现了对构造对象的延迟。这种写法也比较简洁。</p>
+<h2 id="在Android-中使用单例的注意事项"><a href="#在Android-中使用单例的注意事项" class="headerlink" title="在Android 中使用单例的注意事项"></a>在Android 中使用单例的注意事项</h2><p>单例对象如果需要持有Context对象，那一定要将转换为Application对象，因为单例对象本身是一个静态变量，持有Activity Service等Context 对象会造成内存泄露。</p>
+<p>由于这个地方的context是个强引用，而且是被静态变量持有。在java中静态变量实在类被load的时候分配内存，在类被卸载的时候销毁。可以说static变量的生命周期伴随着进程的诞生和销毁。在Android系统中，当我们启动一个app的时候，系统启动一个进程加载一个Dalvik虚拟机实例，来负责类的加载和卸载以及GC，也就是说静态变量伴随了app进程的整个生命周期，由于上例中的instance持有了context，所以被传进来的activity（或者service或broadcast）自然没有办法得到释放，也就造成了内存泄露。</p>
+<p>可以用context.getApplicationContext()方法来做一个转换，Application在Android程序中是一种单例式的存在，它伴随了整个应用的始终，所以使用Application的context不会造成内存泄露了。</p>
+<h2 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h2><ol>
+<li><a href="http://wuchong.me/blog/2014/08/28/how-to-correctly-write-singleton-pattern/" target="_blank" rel="external">http://wuchong.me/blog/2014/08/28/how-to-correctly-write-singleton-pattern/</a></li>
+<li><a href="http://www.jianshu.com/p/92f89da85cb2" target="_blank" rel="external">http://www.jianshu.com/p/92f89da85cb2</a></li>
+</ol>
+
       
     </div>
     <footer class="article-footer">

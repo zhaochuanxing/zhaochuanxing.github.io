@@ -5,16 +5,16 @@
   
   <title>android | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="公司中同事做的小分享，整理一下。 #使用场景  全局性的资源统一管理 对象的创建和销毁开销比较大  实现基本思路方案： 保证一个类只有一个实例，并提供一个一个对外的访问点。 常规方式：  构造函数用private 修饰 定义一个private static 的引用代表该对象 对外提供public static 的方法来访问到这个对象。 构造对象的过程中做好线程同步，避免产生多个对象。 不要实现Se">
+  <meta name="description" content="公司中同事做的小分享，整理一下。 使用场景 全局性的资源统一管理 对象的创建和销毁开销比较大  实现基本思路方案： 保证一个类只有一个实例，并提供一个一个对外的访问点。 常规方式：  构造函数用private 修饰 定义一个private static 的引用代表该对象 对外提供public static 的方法来访问到这个对象。 构造对象的过程中做好线程同步，避免产生多个对象。 不要实现Seri">
 <meta property="og:type" content="article">
 <meta property="og:title" content="android">
 <meta property="og:url" content="http://yoursite.com/2017/07/30/android/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="公司中同事做的小分享，整理一下。 #使用场景  全局性的资源统一管理 对象的创建和销毁开销比较大  实现基本思路方案： 保证一个类只有一个实例，并提供一个一个对外的访问点。 常规方式：  构造函数用private 修饰 定义一个private static 的引用代表该对象 对外提供public static 的方法来访问到这个对象。 构造对象的过程中做好线程同步，避免产生多个对象。 不要实现Se">
-<meta property="og:updated_time" content="2017-07-30T05:20:58.962Z">
+<meta property="og:description" content="公司中同事做的小分享，整理一下。 使用场景 全局性的资源统一管理 对象的创建和销毁开销比较大  实现基本思路方案： 保证一个类只有一个实例，并提供一个一个对外的访问点。 常规方式：  构造函数用private 修饰 定义一个private static 的引用代表该对象 对外提供public static 的方法来访问到这个对象。 构造对象的过程中做好线程同步，避免产生多个对象。 不要实现Seri">
+<meta property="og:updated_time" content="2017-07-30T05:24:06.463Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android">
-<meta name="twitter:description" content="公司中同事做的小分享，整理一下。 #使用场景  全局性的资源统一管理 对象的创建和销毁开销比较大  实现基本思路方案： 保证一个类只有一个实例，并提供一个一个对外的访问点。 常规方式：  构造函数用private 修饰 定义一个private static 的引用代表该对象 对外提供public static 的方法来访问到这个对象。 构造对象的过程中做好线程同步，避免产生多个对象。 不要实现Se">
+<meta name="twitter:description" content="公司中同事做的小分享，整理一下。 使用场景 全局性的资源统一管理 对象的创建和销毁开销比较大  实现基本思路方案： 保证一个类只有一个实例，并提供一个一个对外的访问点。 常规方式：  构造函数用private 修饰 定义一个private static 的引用代表该对象 对外提供public static 的方法来访问到这个对象。 构造对象的过程中做好线程同步，避免产生多个对象。 不要实现Seri">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -52,9 +52,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -86,8 +86,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>公司中同事做的小分享，整理一下。</p>
-<p>#使用场景</p>
-<ol>
+<h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><ol>
 <li>全局性的资源统一管理</li>
 <li>对象的创建和销毁开销比较大</li>
 </ol>
@@ -143,7 +142,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/30/android/" data-id="cj5q9vge400021k0jts3npx8y" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2017/07/30/android/" data-id="cj5qa6kns0000qs0jbzkr251m" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -152,19 +151,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/30/try/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Récent</strong>
+    <a href="/2017/07/30/recyclerview-scroll-control/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Nieuwer</strong>
       <div class="article-nav-title">
         
-          try
+          recyclerview scroll control
         
       </div>
     </a>
   
   
-    <a href="/2017/07/30/my-new-page/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Ancien</strong>
-      <div class="article-nav-title">my new page</div>
+    <a href="/2017/07/27/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ouder</strong>
+      <div class="article-nav-title">Hello World</div>
     </a>
   
 </nav>
@@ -186,7 +185,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archieven</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
     </div>
@@ -196,28 +195,20 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recente berichten</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2017/07/30/success/">success</a>
-          </li>
-        
-          <li>
-            <a href="/2017/07/30/jia/">jia</a>
-          </li>
-        
-          <li>
-            <a href="/2017/07/30/haha/">haha</a>
-          </li>
-        
-          <li>
-            <a href="/2017/07/30/try/">try</a>
+            <a href="/2017/07/30/recyclerview-scroll-control/">recyclerview scroll control</a>
           </li>
         
           <li>
             <a href="/2017/07/30/android/">android</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/27/hello-world/">Hello World</a>
           </li>
         
       </ul>
@@ -233,7 +224,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2017 John Doe<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
